@@ -5,9 +5,9 @@ namespace BossAttacking
 	public class Player : IPlayer
 	{
 		private int _health;
-		private int _armor;
+		private readonly int _armor;
 
-		public Player(int health, int armor)
+		public Player(int health = 100, int armor = 20)
 		{
 			_health = health;
 			_armor = armor;
