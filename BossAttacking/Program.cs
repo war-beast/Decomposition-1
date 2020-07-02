@@ -5,12 +5,13 @@ namespace BossAttacking
 {
 	class Program
 	{
+		const int Armor = 20;
+
 		static void Main(string[] args)
 		{
 			ShowActionMessage("Босс может атаковать в двух режимах: все атаки по очереди и случайной атакой", ConsoleColor.Yellow);
 
 			var Health = 1000;
-			var Armor = 20;
 
 			var isRandomAttack = (DateTime.Now.Millisecond % 2) == 0;
 
@@ -25,60 +26,36 @@ namespace BossAttacking
 				Console.Clear();
 				ShowActionMessage($"У вас здоровья: {Health}", ConsoleColor.Red);
 
-				if (isRandomAttack)
-				{
-					int rand = DateTime.Now.Millisecond % 3;
-					if (rand == 0)
-					{
-						ShowActionMessage("Босс атаковал с немыслимой яростью своими руками", ConsoleColor.DarkRed);
+				var attackType = isRandomAttack
+					? DateTime.Now.Millisecond % 3
+					: attackNumber++ % 3;
 
-						Health = Health - (100 - Armor);
-					}
-					else if (rand == 1)
-					{
-						ShowActionMessage("Босс исполнил новый альбом Ольги Бузовой", ConsoleColor.DarkMagenta);
-
-						Health = Health - (140 - Armor);
-					}
-					else if (rand == 2)
-					{
-						ShowActionMessage("Босс приуныл и рассказал вам о своём долгом пути и дал пару советов, после выпил ритуальный стопарь боярки", ConsoleColor.DarkGray);
-
-						Health = Health - (80 - Armor);
-					}
-				}
-				else
-				{
-					if (attackNumber == 0)
-					{
-						ShowActionMessage("Босс атаковал с немыслимой яростью своими руками", ConsoleColor.DarkRed);
-
-						Health = Health - (100 - Armor);
-					}
-					else if (attackNumber == 1)
-					{
-						ShowActionMessage("Босс исполнил новый альбом Ольги Бузовой", ConsoleColor.DarkMagenta);
-
-						Health = Health - (140 - Armor);
-					}
-					else if (attackNumber == 2)
-					{
-						ShowActionMessage("Босс приуныл и рассказал вам о своём долгом пути и дал пару советов, после выпил ритуальный стопарь боярки", ConsoleColor.DarkGray);
-
-						Health = Health - (80 - Armor);
-					}
-
-					attackNumber += 1;
-					if (attackNumber > 2)
-					{
-						attackNumber = 0;
-					}
-				}
+				Health = SwitchBossAttack(attackType, Health);
 
 				Thread.Sleep(4000);
 			}
 
 			ShowActionMessage("Бой закончен, вы погибли", ConsoleColor.DarkGray);
+		}
+
+		private static int SwitchBossAttack(int attackType, int health)
+		{
+			switch (attackType)
+			{
+				case 0:
+					ShowActionMessage("Босс атаковал с немыслимой яростью своими руками", ConsoleColor.DarkRed);
+					return health - (100 - Armor);
+				case 1:
+					ShowActionMessage("Босс исполнил новый альбом Ольги бузовой", ConsoleColor.DarkMagenta);
+					return health - (140 - Armor);
+				case 2:
+					ShowActionMessage(
+						"Босс приуныл и рассказал вам о своём долгом пути и дал пару советов, после выпил ритуальный стопарь боярки",
+						ConsoleColor.DarkGray);
+					return health - (80 - Armor);
+			}
+
+			return health;
 		}
 
 		private static void ShowActionMessage(string message, ConsoleColor textColor)
