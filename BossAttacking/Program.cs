@@ -7,62 +7,43 @@ namespace BossAttacking
 	{
 		static void Main(string[] args)
 		{
-			ConsoleColor oldColor = Console.ForegroundColor;
-			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.WriteLine("Босс может атаковать в двух режимах: все атаки по очереди и случайной атакой");
-			Console.ForegroundColor = oldColor;
+			ShowActionMessage("Босс может атаковать в двух режимах: все атаки по очереди и случайной атакой", ConsoleColor.Yellow);
 
-			int Health = 1000;
-			int Armor = 20;
+			var Health = 1000;
+			var Armor = 20;
 
-			bool isRandomAttack = (DateTime.Now.Millisecond % 2) == 0;
+			var isRandomAttack = (DateTime.Now.Millisecond % 2) == 0;
 
-			oldColor = Console.ForegroundColor;
-			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.WriteLine("Босс будет атаковать: " + (isRandomAttack ? "случайно" : "все атаки по очереди"));
-			Console.ForegroundColor = oldColor;
+			ShowActionMessage("Босс будет атаковать: " + (isRandomAttack ? "случайно" : "все атаки по очереди"), ConsoleColor.Yellow);
 
-			oldColor = Console.ForegroundColor;
-			Console.ForegroundColor = ConsoleColor.Green;
-			Console.WriteLine("Нажмите enter для начала боя");
-			Console.ForegroundColor = oldColor;
+			ShowActionMessage("Нажмите enter для начала боя", ConsoleColor.Green);
 			Console.ReadLine();
 
-			int attackNumber = 0;
+			var attackNumber = 0;
 			while (Health > 0)
 			{
 				Console.Clear();
-				oldColor = Console.ForegroundColor;
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine("У вас здоровья: " + Health);
-				Console.ForegroundColor = oldColor;
+				ShowActionMessage($"У вас здоровья: {Health}", ConsoleColor.Red);
 
 				if (isRandomAttack)
 				{
 					int rand = DateTime.Now.Millisecond % 3;
 					if (rand == 0)
 					{
-						oldColor = Console.ForegroundColor;
-						Console.ForegroundColor = ConsoleColor.DarkRed;
-						Console.WriteLine("Босс атаковал с немыслимой яростью своими руками");
-						Console.ForegroundColor = oldColor;
+						ShowActionMessage("Босс атаковал с немыслимой яростью своими руками", ConsoleColor.DarkRed);
 
 						Health = Health - (100 - Armor);
 					}
 					else if (rand == 1)
 					{
-						oldColor = Console.ForegroundColor;
-						Console.ForegroundColor = ConsoleColor.DarkMagenta;
-						Console.WriteLine("Босс исполнил новый альбом Ольги бузовой");
-						Console.ForegroundColor = oldColor;
+						ShowActionMessage("Босс исполнил новый альбом Ольги Бузовой", ConsoleColor.DarkMagenta);
+
 						Health = Health - (140 - Armor);
 					}
 					else if (rand == 2)
 					{
-						oldColor = Console.ForegroundColor;
-						Console.ForegroundColor = ConsoleColor.DarkGray;
-						Console.WriteLine("Босс приуныл и рассказал вам о своём долгом пути и дал пару советов, после выпил ритуальный стопарь боярки");
-						Console.ForegroundColor = oldColor;
+						ShowActionMessage("Босс приуныл и рассказал вам о своём долгом пути и дал пару советов, после выпил ритуальный стопарь боярки", ConsoleColor.DarkGray);
+
 						Health = Health - (80 - Armor);
 					}
 				}
@@ -70,27 +51,20 @@ namespace BossAttacking
 				{
 					if (attackNumber == 0)
 					{
-						oldColor = Console.ForegroundColor;
-						Console.ForegroundColor = ConsoleColor.DarkRed;
-						Console.WriteLine("Босс атаковал с немыслимой яростью своими руками");
-						Console.ForegroundColor = oldColor;
+						ShowActionMessage("Босс атаковал с немыслимой яростью своими руками", ConsoleColor.DarkRed);
 
 						Health = Health - (100 - Armor);
 					}
 					else if (attackNumber == 1)
 					{
-						oldColor = Console.ForegroundColor;
-						Console.ForegroundColor = ConsoleColor.DarkMagenta;
-						Console.WriteLine("Босс исполнил новый альбом Ольги бузовой");
-						Console.ForegroundColor = oldColor;
+						ShowActionMessage("Босс исполнил новый альбом Ольги Бузовой", ConsoleColor.DarkMagenta);
+
 						Health = Health - (140 - Armor);
 					}
 					else if (attackNumber == 2)
 					{
-						oldColor = Console.ForegroundColor;
-						Console.ForegroundColor = ConsoleColor.DarkGray;
-						Console.WriteLine("Босс паник и рассказал вам о своём долгом пути и дал пару советов, после выпил ритуальный стопарь боярки");
-						Console.ForegroundColor = oldColor;
+						ShowActionMessage("Босс приуныл и рассказал вам о своём долгом пути и дал пару советов, после выпил ритуальный стопарь боярки", ConsoleColor.DarkGray);
+
 						Health = Health - (80 - Armor);
 					}
 
@@ -104,9 +78,14 @@ namespace BossAttacking
 				Thread.Sleep(4000);
 			}
 
-			oldColor = Console.ForegroundColor;
-			Console.ForegroundColor = ConsoleColor.DarkGray;
-			Console.WriteLine("Бой закончен, вы погибли");
+			ShowActionMessage("Бой закончен, вы погибли", ConsoleColor.DarkGray);
+		}
+
+		private static void ShowActionMessage(string message, ConsoleColor textColor)
+		{
+			ConsoleColor oldColor = Console.ForegroundColor;
+			Console.ForegroundColor = textColor;
+			Console.WriteLine(message);
 			Console.ForegroundColor = oldColor;
 		}
 	}
