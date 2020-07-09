@@ -7,85 +7,52 @@ namespace TodoLists
 	{
 		static void Main(string[] args)
 		{
-			string[] goalsIndividual = new string[0], goalsWork = new string[0], goalsFamilly = new string[0];
+			var goalsIndividual = new List<string>();
+			var goalsWork = new List<string>();
+			var goalsFamily = new List<string>();
 
 			while (true)
 			{
 				Console.Clear();
 				//поиск длинны самого длинного списка на данный момент
-				int max = goalsIndividual.Length > goalsWork.Length ? goalsIndividual.Length : goalsWork.Length;
-				max = max > goalsFamilly.Length ? max : goalsFamilly.Length;
+				var max = goalsIndividual.Count > goalsWork.Count ? goalsIndividual.Count : goalsWork.Count;
+				max = max > goalsFamily.Count ? max : goalsFamily.Count;
 
 				Console.WriteLine("Личный | Рабочий | Семейный");
-				for (int i = 0; i < max; i++)
+				for (var i = 0; i < max; i++)
 				{
-					if (goalsIndividual.Length > i)
-					{
-						Console.Write(goalsIndividual[i] + " | ");
-					}
-					else
-					{
-						Console.Write("Empty | ");
-					}
-
-					if (goalsWork.Length > i)
-					{
-						Console.Write(goalsWork[i] + " | ");
-					}
-					else
-					{
-						Console.Write("Empty | ");
-					}
-
-					if (goalsFamilly.Length > i)
-					{
-						Console.Write(goalsFamilly[i] + " | ");
-					}
-					else
-					{
-						Console.Write("Empty | ");
-					}
+					ShowGoal(goalsIndividual, i);
+					ShowGoal(goalsWork, i);
+					ShowGoal(goalsFamily, i);
 					Console.WriteLine();
 				}
 
 				Console.WriteLine("Куда вы хотите добавить цель?");
-				string listName = Console.ReadLine().ToLower(); //то что введёт пользователь переведённое в нижний регистр
-				Console.WriteLine("Что это за цель?");
-				string goal = Console.ReadLine();
+				var listName = Console.ReadLine()?.ToUpper(); //то что введёт пользователь, переведённое в верхний регистр
+				if (string.IsNullOrWhiteSpace(listName))
+					continue;
 
-				//Здесь нельзя использовать Array.Resize
-				if (listName == "личный")
+				Console.WriteLine("Что это за цель?");
+				var goal = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(goal))
+					continue;
+
+				switch (listName)
 				{
-					string[] goalsIndividualNew = new string[goalsIndividual.Length + 1];
-					for (int j = 0; j < goalsIndividual.Length; j++)
-					{
-						goalsIndividualNew[j] = goalsIndividual[j];
-					}
-					goalsIndividualNew[goalsIndividualNew.Length - 1] = goal;
-					goalsIndividual = goalsIndividualNew;
-				}
-				else if (listName == "рабочий")
-				{
-					string[] goalsWorkNew = new string[goalsWork.Length + 1];
-					for (int j = 0; j < goalsWork.Length; j++)
-					{
-						goalsWorkNew[j] = goalsWork[j];
-					}
-					goalsWorkNew[goalsWorkNew.Length - 1] = goal;
-					goalsWork = goalsWorkNew;
-				}
-				else if (listName == "семейный")
-				{
-					string[] goalsFamillyNew = new string[goalsFamilly.Length + 1];
-					for (int j = 0; j < goalsFamilly.Length; j++)
-					{
-						goalsFamillyNew[j] = goalsFamilly[j];
-					}
-					goalsFamillyNew[goalsFamillyNew.Length - 1] = goal;
-					goalsFamilly = goalsFamillyNew;
+					case "ЛИЧНЫЙ":
+						goalsIndividual.Add(goal);
+						break;
+					case "РАБОЧИЙ":
+						goalsWork.Add(goal);
+						break;
+					case "СЕМЕЙНЫЙ":
+						goalsFamily.Add(goal);
+						break;
 				}
 			}
 		}
 
+		private static void ShowGoal(IReadOnlyList<string> goals, int i) =>
+			Console.Write(goals.Count > i ? $"{goals[i]} | " : "Empty | ");
 	}
 }
