@@ -14,6 +14,8 @@ namespace TodoLists
 			_todoListFactory = new TodoListsFactory();
 		}
 
+		public IReadOnlyList<string> GetNames() => _todoListFactory.GetNames();
+
 		public ITodoList GetList(string key)
 		{
 			#region validation

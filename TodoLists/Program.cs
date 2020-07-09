@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TodoLists.Interfaces;
 
 namespace TodoLists
 {
@@ -7,18 +8,16 @@ namespace TodoLists
 	{
 		static void Main(string[] args)
 		{
-			var goalsIndividual = new List<string>();
-			var goalsWork = new List<string>();
-			var goalsFamily = new List<string>();
+			IListFactory todoLists = new TodoListsProxy();
 
 			while (true)
 			{
 				Console.Clear();
 				//поиск длинны самого длинного списка на данный момент
-				var max = goalsIndividual.Count > goalsWork.Count ? goalsIndividual.Count : goalsWork.Count;
-				max = max > goalsFamily.Count ? max : goalsFamily.Count;
+				var max = todoLists.MaxCount;
 
-				Console.WriteLine("Личный | Рабочий | Семейный");
+				var todoListNames = todoLists.GetNames();
+				Console.WriteLine(string.Join(" | ", todoListNames));
 				for (var i = 0; i < max; i++)
 				{
 					ShowGoal(goalsIndividual, i);
@@ -37,18 +36,7 @@ namespace TodoLists
 				if (string.IsNullOrWhiteSpace(goal))
 					continue;
 
-				switch (listName)
-				{
-					case "ЛИЧНЫЙ":
-						goalsIndividual.Add(goal);
-						break;
-					case "РАБОЧИЙ":
-						goalsWork.Add(goal);
-						break;
-					case "СЕМЕЙНЫЙ":
-						goalsFamily.Add(goal);
-						break;
-				}
+				todoLists.GetList(listName).Append(goal);
 			}
 		}
 

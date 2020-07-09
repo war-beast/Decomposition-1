@@ -9,19 +9,21 @@ namespace TodoLists
 	public class TodoListsFactory : IListFactory
 	{
 		private readonly Dictionary<string, ITodoList> _todoLists;
+		private List<ITodoList> _lists = new List<ITodoList>
+		{
+			new FamilyGoals(),
+			new IndividualGoals(),
+			new WorkGoals()
+		};
 
 		public TodoListsFactory()
 		{
-			ITodoList familyList = new FamilyGoals();
-			ITodoList individualList = new IndividualGoals();
-			ITodoList workList = new WorkGoals();
+			_todoLists = _lists.ToDictionary(key => key.Name.ToUpper(), value => value);
+		}
 
-			_todoLists = new Dictionary<string, ITodoList>
-			{
-				{ individualList.Name.ToUpper(), individualList },
-				{ workList.Name.ToUpper(), workList },
-				{ familyList.Name.ToUpper(), familyList }
-			};
+		public IReadOnlyList<string> GetNames()
+		{
+			return _lists.Select(x => x.Name).ToList();
 		}
 
 		public ITodoList GetList(string key)
