@@ -4,7 +4,7 @@
 	{
 		public Strength()
 		{
-			Name = "Сила"
+			Name = "Сила";
 		}
 	}
 }

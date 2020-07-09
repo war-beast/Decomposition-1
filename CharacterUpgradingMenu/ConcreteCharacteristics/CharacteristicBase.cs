@@ -31,20 +31,24 @@ namespace CharacterUpgradingMenu.ConcreteCharacteristics
 
 		public virtual void Update(int amount)
 		{
-			Value += amount;
-			if (Value > Max)
+			var newValue = Value + amount;
+			if (newValue > Max)
 			{
-				OnOverhead(new CharacteristicEvenArgs { Overhead = Value - Max });
+				OnOverhead(new CharacteristicEvenArgs { Overhead = newValue - Max, Processed = Max - Value });
 				Value = Max;
 			}
-			else if (Value < Min)
+			else if (newValue < Min)
 			{
-				OnOverhead(new CharacteristicEvenArgs { Overhead = Min - Value});
+				OnOverhead(new CharacteristicEvenArgs { Overhead = Min + newValue, Processed = Value - Min });
 				Value = Min;
+			}
+			else
+			{
+				Value = newValue;
 			}
 		}
 
-		protected virtual void OnOverhead(EventArgs args)
+		protected virtual void OnOverhead(CharacteristicEvenArgs args)
 		{
 			NotifyOverhead?.Invoke(this, args);
 		}
