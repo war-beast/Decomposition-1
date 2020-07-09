@@ -6,12 +6,13 @@ namespace TodoLists
 {
 	public class TodoListsProxy : IListFactory
 	{
-		private Dictionary<string, ITodoList> _todoLists;
-		private IListFactory _todoListFactory;
+		private readonly Dictionary<string, ITodoList> _todoLists;
+		private readonly IListFactory _todoListFactory;
 
 		public TodoListsProxy()
 		{
 			_todoListFactory = new TodoListsFactory();
+			_todoLists = new Dictionary<string, ITodoList>();
 		}
 
 		public IReadOnlyList<string> GetNames() => _todoListFactory.GetNames();

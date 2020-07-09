@@ -9,7 +9,7 @@ namespace TodoLists
 	public class TodoListsFactory : IListFactory
 	{
 		private readonly Dictionary<string, ITodoList> _todoLists;
-		private List<ITodoList> _lists = new List<ITodoList>
+		private readonly List<ITodoList> _lists = new List<ITodoList>
 		{
 			new FamilyGoals(),
 			new IndividualGoals(),

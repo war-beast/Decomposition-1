@@ -20,9 +20,13 @@ namespace TodoLists
 				Console.WriteLine(string.Join(" | ", todoListNames));
 				for (var i = 0; i < max; i++)
 				{
-					ShowGoal(goalsIndividual, i);
-					ShowGoal(goalsWork, i);
-					ShowGoal(goalsFamily, i);
+					foreach (var name in todoListNames)
+					{
+						var goals = todoLists
+							.GetList(name)
+							.Goals;
+						ShowGoal(goals, i);
+					}
 					Console.WriteLine();
 				}
 
