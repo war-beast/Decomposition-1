@@ -5,7 +5,7 @@ namespace CharacterUpgradingMenu.Interfaces
 {
 	public interface IHero
 	{
-		Dictionary<string, CharacteristicBase> Characteristics { get; }
+		Dictionary<string, ICharacteristic> Characteristics { get; }
 
 		void ShowUpdatedState();
 

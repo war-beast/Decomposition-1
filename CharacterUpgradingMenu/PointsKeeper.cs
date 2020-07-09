@@ -17,18 +17,37 @@ namespace CharacterUpgradingMenu
 
 		public void TransferToHero(IHero hero, string characteristicName, int amount)
 		{
+			#region validation
+
+			if(hero == null)
+				throw new ArgumentNullException(nameof(hero));
+
+			characteristicName = characteristicName?.ToUpper();
+
+			if (string.IsNullOrEmpty(characteristicName) ||
+			    hero.Characteristics.ContainsKey(characteristicName) == false)
+			{
+				return;
+			}
+
+			#endregion
+
+			UpdateCharacteristic(hero.Characteristics[characteristicName], amount);
+		}
+
+		#region private methods
+
+		private void UpdateCharacteristic(ICharacteristic characteristic, int amount)
+		{
 			if (amount > _value)
 				amount = _value;
 
 			_value -= amount;
 
-			var characteristic = hero.Characteristics[characteristicName.ToUpper()];
 			characteristic.NotifyOverhead += Characteristic_NotifyOverhead;
 			characteristic.Update(amount);
 			characteristic.NotifyOverhead -= Characteristic_NotifyOverhead;
 		}
-
-		#region private methods
 
 		private void Characteristic_NotifyOverhead(object sender, EventArgs e)
 		{

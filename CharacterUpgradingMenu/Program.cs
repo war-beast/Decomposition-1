@@ -21,18 +21,22 @@ namespace CharacterUpgradingMenu
 
 				Console.WriteLine("Какую характеристику вы хотите изменить?");
 				var subject = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(subject))
+					continue;
 
-				Console.WriteLine(@"Что вы хотите сделать? +\-");
+				Console.WriteLine(@"Что вы хотите сделать? +\- (по умолчанию +)");
 				var operation = Console.ReadLine();
+				if(string.IsNullOrWhiteSpace(operation))
+					operation = "+";
 
-				Console.WriteLine(@"Колличество поинтов которые следует {0}", operation == "+" ? "прибавить" : "отнять");
+				Console.WriteLine(@"Колличество поинтов которые следует {0}", operation.Equals("+") ? "прибавить" : "отнять");
 				var operandPoints = GetUserInput();
 
-				operandPoints = operation.Equals("+", StringComparison.CurrentCultureIgnoreCase)
+				operandPoints = operation.Equals("+")
 					? operandPoints
 					: -operandPoints;
 
-				points.TransferToHero(hero, characteristicName: subject.ToUpper(), amount: operandPoints);
+				points.TransferToHero(hero, characteristicName: subject, amount: operandPoints);
 			}
 
 			Console.WriteLine("Вы распределили все очки. Введите возраст персонажа:");

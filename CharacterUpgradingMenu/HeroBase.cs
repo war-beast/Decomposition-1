@@ -9,14 +9,14 @@ namespace CharacterUpgradingMenu
 	{
 		#region private members
 
-		private Strength _strength;
-		private Agility _agility;
-		private Intelligence _intelligence;
-		private Age _age;
+		private ICharacteristic _strength;
+		private ICharacteristic _agility;
+		private ICharacteristic _intelligence;
+		private ICharacteristic _age;
 
 		#endregion
 
-		public Dictionary<string, CharacteristicBase> Characteristics { get; }
+		public Dictionary<string, ICharacteristic> Characteristics { get; }
 
 		protected HeroBase()
 		{
@@ -25,7 +25,7 @@ namespace CharacterUpgradingMenu
 			_intelligence = new Intelligence();
 			_age = new Age();
 
-			Characteristics = new Dictionary<string, CharacteristicBase>
+			Characteristics = new Dictionary<string, ICharacteristic>
 			{
 				{ _strength.Name.ToUpper(), _strength },
 				{ _agility.Name.ToUpper(), _agility },
@@ -61,8 +61,6 @@ namespace CharacterUpgradingMenu
 			var result = string.Empty;
 			return result.PadLeft(value, '#').PadRight(10, '_');
 		}
-
-
 
 		#endregion
 	}

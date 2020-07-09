@@ -34,12 +34,12 @@ namespace CharacterUpgradingMenu.ConcreteCharacteristics
 			var newValue = Value + amount;
 			if (newValue > Max)
 			{
-				OnOverhead(new CharacteristicEvenArgs { Overhead = newValue - Max, Processed = Max - Value });
+				OnOverhead(new CharacteristicEvenArgs { Overhead = newValue - Max });
 				Value = Max;
 			}
 			else if (newValue < Min)
 			{
-				OnOverhead(new CharacteristicEvenArgs { Overhead = Min + newValue, Processed = Value - Min });
+				OnOverhead(new CharacteristicEvenArgs { Overhead = Min + newValue });
 				Value = Min;
 			}
 			else
